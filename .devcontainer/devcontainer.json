@@ -1,0 +1,52 @@
+// For format details, see https://aka.ms/devcontainer.json.
+{
+    "dockerComposeFile": [
+        "docker-compose-dev.yml"
+    ],
+    "service": "langchainnotes",
+    "workspaceFolder": "/workspace/",
+    "features": {
+        "ghcr.io/devcontainers-contrib/features/poetry:latest": {},
+        "ghcr.io/jungaretti/features/make:latest": {}
+    },
+    "postStartCommand": {
+        "Environment Initialization": [
+            "sh",
+            "environment_init.sh"
+        ],
+        "Poetry Initialization": [
+            "sh",
+            ".devcontainer/poetry_init.sh"
+        ],
+        "Starship Initialization": [
+            "sh",
+            ".devcontainer/starship_init.sh"
+        ]
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.vscode-pylance",
+                "mhutchie.git-graph",
+                "VisualStudioExptTeam.vscodeintellicode",
+                "VisualStudioExptTeam.intellicode-api-usage-examples",
+                "ms-toolsai.jupyter",
+                "ms-toolsai.vscode-jupyter-cell-tags",
+                "ms-toolsai.jupyter-renderers",
+                "ms-toolsai.vscode-jupyter-slideshow",
+                "ms-vscode.makefile-tools",
+                "ms-python.python",
+                "charliermarsh.ruff",
+                "rangav.vscode-thunder-client"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "/bin/bash"
+                    }
+                }
+            }
+        }
+    }
+}

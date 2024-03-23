@@ -1,0 +1,51 @@
+version: 1
+log_folder_path: logs
+formatters:
+  simple:
+    format: '[%(asctime)s][%(levelname)s][%(module)s] - %(message)s'
+    datefmt: '%Y-%m-%dT%H:%M:%S%z'
+  detailed:
+    format: '[%(asctime)s][%(levelname)s][%(name)s][%(filename)s - %(lineno)d][%(module)s][%(funcName)s] - %(message)s'
+    datefmt: '%Y-%m-%dT%H:%M:%S%z'
+  json:
+    (): src.utils.custom_logger.JSONFormatter
+    fmt_keys:
+      level: levelname
+      message: message
+      timestamp: timestamp
+      logger: name
+      module: module
+      filename: filename
+      func: funcName
+      line: lineno
+      thread_name: threadName
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: simple
+    level: INFO
+    stream: ext://sys.stdout
+  file_info:
+    class: logging.FileHandler
+    formatter: simple
+    level: INFO
+    filename: ./${log_folder_path}/${oc.env:STARTDATETIME}/info.log
+  file_debug:
+    class: logging.FileHandler
+    formatter: detailed
+    level: DEBUG
+    filename: ./${log_folder_path}/${oc.env:STARTDATETIME}/debug.log
+  file_json:
+    class: logging.FileHandler
+    formatter: json
+    level: DEBUG
+    filename: ./${log_folder_path}/${oc.env:STARTDATETIME}/debug.jsonl
+loggers:
+  root:
+    level: DEBUG
+    handlers:
+    - console
+    - file_info
+    - file_debug
+    - file_json
+disable_existing_loggers: false
