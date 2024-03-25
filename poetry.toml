@@ -1,0 +1,6 @@
+[virtualenvs]
+in-project = false
+
+[virtualenvs.options]
+no-pip = true
+no-setuptools = true

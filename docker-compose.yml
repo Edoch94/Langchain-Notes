@@ -2,8 +2,13 @@ version: '1.0'
 
 services:
   langchainnotes:
-    image: langchainnotes
     build:
       context: .
       dockerfile: ./Dockerfile
-
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]

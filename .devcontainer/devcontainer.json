@@ -1,10 +1,11 @@
 // For format details, see https://aka.ms/devcontainer.json.
 {
     "dockerComposeFile": [
+        "../docker-compose.yml",
         "docker-compose-dev.yml"
     ],
     "service": "langchainnotes",
-    "workspaceFolder": "/workspace/",
+    "workspaceFolder": "/home/nonroot/workspace/",
     "features": {
         "ghcr.io/devcontainers-contrib/features/poetry:latest": {},
         "ghcr.io/jungaretti/features/make:latest": {}
@@ -12,15 +13,15 @@
     "postStartCommand": {
         "Environment Initialization": [
             "sh",
-            "environment_init.sh"
+            "${containerWorkspaceFolder}environment_init.sh"
         ],
         "Poetry Initialization": [
             "sh",
-            ".devcontainer/poetry_init.sh"
+            "${containerWorkspaceFolder}.devcontainer/poetry_init.sh"
         ],
         "Starship Initialization": [
             "sh",
-            ".devcontainer/starship_init.sh"
+            "${containerWorkspaceFolder}.devcontainer/starship_init.sh"
         ]
     },
     "customizations": {
@@ -37,7 +38,8 @@
                 "ms-vscode.makefile-tools",
                 "ms-python.python",
                 "charliermarsh.ruff",
-                "rangav.vscode-thunder-client"
+                "rangav.vscode-thunder-client",
+                "tamasfe.even-better-toml"
             ],
             "settings": {
                 "terminal.integrated.defaultProfile.linux": "bash",

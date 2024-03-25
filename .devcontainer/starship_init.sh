@@ -6,3 +6,4 @@ mkdir -p ~/.config
 touch ~/.config/starship.toml
 starship preset plain-text-symbols -o ~/.config/starship.toml
 echo 'eval "$(starship init bash)"' >> ~/.bashrc
+echo "Starship installed"

@@ -1,18 +1,8 @@
 version: '1.0'
 services:
   langchainnotes:
-    container_name: langchainnotes-dev
-    # image: python:3.11
-    build:
-      context: .
-      dockerfile: Dockerfile
+    container_name: langchainnotes
+    user: nonroot
     volumes:
-    - ../:/workspace:cached
+    - ./:/home/nonroot/workspace
     tty: true
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: 1
-    #           capabilities: [gpu]
