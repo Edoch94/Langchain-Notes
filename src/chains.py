@@ -1,33 +1,47 @@
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.runnables import RunnableSequence
-from langgraph.graph import END, MessageGraph
+import operator
+from typing import Annotated, Sequence, TypedDict
 
-from src.llms import llm
+from langchain_core.messages import BaseMessage
+from langchain_core.runnables import (
+    RunnableLambda,
+    RunnableParallel,
+    RunnableSequence,
+)
+from langgraph.graph import END, StateGraph
 
-prompt = ChatPromptTemplate.from_messages(
-    [
-        ('system', 'You are a helpful assistant named UNO'),
-        MessagesPlaceholder(variable_name='messages'),
-    ]
+from src.llms import assistant
+from src.prompts import due_prompt, uno_prompt
+
+
+def wrap_message_in_list(message: BaseMessage) -> Sequence[BaseMessage]:
+    return [message]
+
+
+class AgentState(TypedDict):
+    messages: Annotated[Sequence[BaseMessage], operator.add]
+
+
+uno_chain = RunnableSequence(
+    uno_prompt,
+    assistant,
+    RunnableParallel({'messages': RunnableLambda(wrap_message_in_list)}),
 )
 
-llm_chain = RunnableSequence(
-    prompt,
-    llm,
-    StrOutputParser(),
+due_chain = RunnableSequence(
+    due_prompt,
+    assistant,
+    RunnableParallel({'messages': RunnableLambda(wrap_message_in_list)}),
 )
 
 
-def call_assistant(messages: list):
-    return llm.invoke(messages)
+graph = StateGraph(AgentState)
 
+graph.add_node('UNO', uno_chain)
+graph.add_node('DUE', due_chain)
 
-graph = MessageGraph()
+graph.add_edge('UNO', 'DUE')
+graph.add_edge('DUE', END)
 
-graph.add_node('assistant', call_assistant)
-graph.add_edge('assistant', END)
-
-graph.set_entry_point('assistant')
+graph.set_entry_point('UNO')
 
 assistant_graph = graph.compile()
