@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "ms-vscode-remote.remote-containers",
+        "ms-azuretools.vscode-docker",
+        "mhutchie.git-graph",
+        "github.copilot-chat",
+        "github.vscode-pull-request-github",
+        "ms-toolsai.jupyter",
+        "ms-python.vscode-pylance",
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "rangav.vscode-thunder-client"
+    ]
+}
